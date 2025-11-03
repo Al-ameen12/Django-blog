@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     {% if title %}
-        <title>Django Blog - {{title}}</title>
-    {% else %}
-        <title>Django Blog</title>
-    {% endif %}
-</head>
-<body>
+{% extends "blog/base.html" %}
+{% block content %}
     <h1>About Realty Homes?</h1>
-</body>
-</html>
+    <p>
+        Realty Homes is a leading real estate company dedicated to helping you find your 
+        dream home. With years of experience in the industry, we pride ourselves on our 
+        commitment to customer satisfaction and our extensive knowledge of the housing market.
+    </p>
+{% endblock content %}
