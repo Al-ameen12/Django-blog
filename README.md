@@ -6,7 +6,7 @@ Following Corey Schafer's Django tutorial series to build a blog application.
 
 - [x] Video 1: Django Setup & First App
 - [x] Video 2: Templates & URL Routing  
-- [ ] Video 3: Templates
+- [x] Video 3: Templates, base templates, adding static files, template inheritance & URL tag for routing
 - [ ] Video 4: Admin Page
 - [ ] Video 5: Database & Models
 - [ ] And more...
