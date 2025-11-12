@@ -8,7 +8,7 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Account creared for {username}!')
+            messages.success(request, f'Welcome {username}! Your account is ready! 🎉')
             return redirect('realty-home')
     else:
         form = UserRegisterForm()
