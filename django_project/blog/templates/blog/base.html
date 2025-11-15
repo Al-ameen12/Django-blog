@@ -29,18 +29,9 @@
                     </div>
                     <!-- Navbar Right Side -->
                     <div class="navbar-nav">
-                        <!-- {% if user.is_authenticated %}
-                        <form action="{% url 'logout' %}" style="display: inline;" method="Post">
-                            {% csrf_token %}
-                            <button type="submit" class="nav-item nav-link btn btn-link"
-                                style="padding: 0; margin: 0; border: none; background: none;">Logout {{ user.username }}</button>
-                        </form>
-                        {% else %}                    
-                        <a class="nav-item nav-link" href="#">Login</a>
-                        <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
-                        {% endif %} -->
-
                         {% if user.is_authenticated %}
+                        <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+
                         <form method="POST" action="{% url 'logout' %}" class="d-inline">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-link nav-link"
