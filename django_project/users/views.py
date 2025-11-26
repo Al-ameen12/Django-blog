@@ -1,7 +1,11 @@
+'''
+* added UserUpdateForm and ProfileUpdateForm to the import from .forms
+    new forms are just created from forms.py.
+'''
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 def register(request):
     if request.method == 'POST':
@@ -16,6 +20,15 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
-@login_required
+@login_required #django signal
 def profile(request):
-    return render(request, 'users/profile.html')
+    # creating instances
+    u_form = UserUpdateForm()
+    p_form = ProfileUpdateForm()
+
+    # Pass to the template, so the form can be accessed
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'users/profile.html', context)
