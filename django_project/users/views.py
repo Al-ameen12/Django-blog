@@ -23,8 +23,28 @@ def register(request):
 @login_required #django signal
 def profile(request):
     # creating instances
-    u_form = UserUpdateForm()
-    p_form = ProfileUpdateForm()
+    '''
+        Populating the forms with the current user info
+        instance = request.user  --> gets the current user
+        instance = request.user.profile --> gets the current user's profile.
+
+        Put in a check to see if it is a POST route or not and also see if the forms are valid
+    '''
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance = request.user)
+        p_form = ProfileUpdateForm(request.POST, 
+                                   request.FILES, 
+                                   instance = request.user.profile)
+        ''' check if both forms are valid '''
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            ''' display success message: giving feedback to user '''
+            messages.success(request, f'Your account has been updated!')
+            return redirect('profile')  # Post/Redirect/Get pattern
+    else:
+        u_form = UserUpdateForm(instance = request.user)
+        p_form = ProfileUpdateForm(instance = request.user.profile)
 
     # Pass to the template, so the form can be accessed
     context = {
