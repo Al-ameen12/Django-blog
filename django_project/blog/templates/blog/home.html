@@ -9,7 +9,8 @@
             <!-- filterded the date to show only date without time -->
             <small class="text-muted">on {{ post.date_posted|date:"F d, Y" }}</small>
         </div>
-        <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+        <!-- added a working link(post-detail and post.id) to  post.title -->
+        <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
         <p class="article-content">{{ post.content }}</p>
     </div>
 </article>

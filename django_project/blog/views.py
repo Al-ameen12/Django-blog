@@ -7,9 +7,11 @@
     changed the template to be used by view to 'blog/home.html'
     set the context_object_name attribute to 'posts' to change the default name of the list object
     order the posts by date_posted in descending order
+
+    imported a DetailView from django.views.generic
 '''
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Post
 
 def home(request):
@@ -24,6 +26,10 @@ class PostListView(ListView):
     template_name = 'blog/home.html' #specifies the template to be used  <app>/<model>_<viewtype>.html
     context_object_name = 'posts' #this is used to change the default name of the list object from object_list to posts
     ordering = ['-date_posted'] #orders the posts by date_posted in descending order
+
+
+class PostDetailView(DetailView):
+    model = Post
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
