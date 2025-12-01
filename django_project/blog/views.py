@@ -9,9 +9,19 @@
     order the posts by date_posted in descending order
 
     imported a DetailView from django.views.generic
+
+    import CreateView from django.views.generic
+    created a class named PostCreateView that inherits from CreateView
+    set the model attribute to Post
+    add the fields attribute to specify the fields to be included in the form for creating a new post
+    navigate to urls.py to wire up the new views
 '''
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import (
+    ListView, 
+    DetailView,
+    CreateView,
+)
 from .models import Post
 
 def home(request):
@@ -30,6 +40,10 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+
+class PostCreateView(CreateView):
+    model = Post
+    fields = ['title', 'content']
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
