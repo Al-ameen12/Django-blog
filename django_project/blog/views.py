@@ -15,6 +15,18 @@
     set the model attribute to Post
     add the fields attribute to specify the fields to be included in the form for creating a new post
     navigate to urls.py to wire up the new views
+
+    run the server and test the new views by typing the urls in the browser - http://127.0.0.1:8000/post/new/
+
+    error fix: integrity error when creating a post because the author field is missing
+    override the form_valid method to set the author of the post to the current logged-in user
+    adding the author before the form is submitted and saved to the database
+
+    runserver, test creating a new post again to ensure the integrity error is resolved
+    new error fix: ensure logging in before creating a post
+    error2:no url to redirect to after successfully creating a post
+    error2 fix: redirect to the post detail page after successfully creating a post
+    navigate to blog/models.py to add get_absolute_url method to Post model
 '''
 from django.shortcuts import render
 from django.views.generic import (
@@ -44,6 +56,10 @@ class PostDetailView(DetailView):
 class PostCreateView(CreateView):
     model = Post
     fields = ['title', 'content']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
