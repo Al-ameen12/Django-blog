@@ -43,10 +43,16 @@
     override the form_valid method to set the author of the post to the current logged-in user
     this will ensure that the author field is correctly set when updating a post
 
-    
+    using mixins to restrict access to the update view to only the author of the post
+    import UserPassesTestMixin from django.contrib.auth.mixins
+    update PostUpdateView to inherit from UserPassesTestMixin
+    implement the test_func method to check if the current user is the author of the post
+    if the user is the author, return True to allow access to the update view
+    if the user is not the author, return False to deny access to the update view
+    testing: only the author of the post can access the update view, other users will be denied access
 '''
 from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView, 
     DetailView,
@@ -80,12 +86,18 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class PostUpdateView(LoginRequiredMixin, UpdateView):
+class PostUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+    
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
