@@ -9,18 +9,24 @@
     import PostCreateView to be used for creating new posts
     added a path for creating new posts using PostCreateView.as_view()
     create a template for the post creation form at blog/post_form.html
+
+    import PostUpdateView to be used for updating existing posts
+    added a path for updating existing posts using PostUpdateView.as_view()
+    
 '''
 from django.urls import path 
 from .views import (
     PostListView, 
     PostDetailView,
     PostCreateView,
+    PostUpdateView,
 )
 from . import views
 
 urlpatterns = [
     path('',PostListView.as_view(), name='realty-home'),
-    path('post/<int:pk>',PostDetailView.as_view(), name='post-detail'),
+    path('post/<int:pk>/',PostDetailView.as_view(), name='post-detail'),
     path('post/new/',PostCreateView.as_view(), name='post-create'),
+    path('post/<int:pk>/update/',PostUpdateView.as_view(), name='post-update'),
     path('about/', views.about, name='realty-about'),
 ]

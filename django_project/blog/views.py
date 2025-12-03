@@ -33,6 +33,17 @@
     update PostCreateView to inherit from LoginRequiredMixin and CreateView
     this will ensure that only logged-in users can access the post creation view
     testing:users will be redirected to the login page if they try to access the post creation view without being logged in
+
+
+    Creating Update View with CBV
+    import UpdateView from django.views.generic
+    create a class named PostUpdateView that inherits from LoginRequiredMixin and UpdateView
+    set the model attribute to Post
+    add the fields attribute to specify the fields to be included in the form for updating a post
+    override the form_valid method to set the author of the post to the current logged-in user
+    this will ensure that the author field is correctly set when updating a post
+
+    
 '''
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -40,6 +51,7 @@ from django.views.generic import (
     ListView, 
     DetailView,
     CreateView,
+    UpdateView,
 )
 from .models import Post
 
@@ -68,5 +80,12 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
