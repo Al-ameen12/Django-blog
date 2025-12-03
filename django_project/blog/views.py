@@ -23,12 +23,19 @@
     adding the author before the form is submitted and saved to the database
 
     runserver, test creating a new post again to ensure the integrity error is resolved
-    new error fix: ensure logging in before creating a post
+   
     error2:no url to redirect to after successfully creating a post
     error2 fix: redirect to the post detail page after successfully creating a post
     navigate to blog/models.py to add get_absolute_url method to Post model
+
+    new error fix: ensure logging in before creating a post
+    import LoginRequiredMixin from django.contrib.auth.mixins
+    update PostCreateView to inherit from LoginRequiredMixin and CreateView
+    this will ensure that only logged-in users can access the post creation view
+    testing:users will be redirected to the login page if they try to access the post creation view without being logged in
 '''
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     ListView, 
     DetailView,
@@ -53,7 +60,7 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content']
 
