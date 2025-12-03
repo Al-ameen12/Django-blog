@@ -50,6 +50,18 @@
     if the user is the author, return True to allow access to the update view
     if the user is not the author, return False to deny access to the update view
     testing: only the author of the post can access the update view, other users will be denied access
+
+    implementing the DeleteView
+    import DeleteView from django.views.generic
+    create a class named PostDeleteView that inherits from LoginRequiredMixin, UserPassesTestMixin, and DeleteView
+    set the model attribute to Post
+    implement the test_func method to check if the current user is the author of the post
+    set the success_url attribute to redirect to the home page after successfully deleting a post
+    testing: only the author of the post can delete the post, other users will be denied
+
+    add a success_url attribute to PostDeleteView to redirect to the home page after deletion
+    by adding success_url = '/' to PostDeleteView
+
 '''
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -58,6 +70,7 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
+    DeleteView
 )
 from .models import Post
 
@@ -99,5 +112,17 @@ class PostUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
         if self.request.user == post.author:
             return True
         return False
+    
+class PostDeleteView(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
+    model = Post
+    success_url = '/'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+    
+
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})

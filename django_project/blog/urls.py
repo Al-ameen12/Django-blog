@@ -12,7 +12,10 @@
 
     import PostUpdateView to be used for updating existing posts
     added a path for updating existing posts using PostUpdateView.as_view()
-    
+
+    import PostDeleteView to be used for deleting posts
+    added a path for deleting posts using PostDeleteView.as_view()
+    then proceed to create a template for the post deletion confirmation at blog/post_confirm_delete.html
 '''
 from django.urls import path 
 from .views import (
@@ -20,6 +23,7 @@ from .views import (
     PostDetailView,
     PostCreateView,
     PostUpdateView,
+    PostDeleteView,
 )
 from . import views
 
@@ -28,5 +32,6 @@ urlpatterns = [
     path('post/<int:pk>/',PostDetailView.as_view(), name='post-detail'),
     path('post/new/',PostCreateView.as_view(), name='post-create'),
     path('post/<int:pk>/update/',PostUpdateView.as_view(), name='post-update'),
+    path('post/<int:pk>/delete/',PostDeleteView.as_view(), name='post-delete'),
     path('about/', views.about, name='realty-about'),
 ]
