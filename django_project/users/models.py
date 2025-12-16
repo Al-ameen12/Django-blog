@@ -11,8 +11,8 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
-    def save(self):
-        super().save()  # Call the real save() method
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # Call the real save() method
 
         ''' Open image using pillow 
             resieze if necessary
