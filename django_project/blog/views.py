@@ -85,7 +85,8 @@ class PostListView(ListView):
     model = Post #it tells the ListView what model to query in other to create the list
     template_name = 'blog/home.html' #specifies the template to be used  <app>/<model>_<viewtype>.html
     context_object_name = 'posts' #this is used to change the default name of the list object from object_list to posts
-    ordering = ['-date_posted'] #orders the posts by date_posted in descending order
+    ordering = ['-date_posted'] #orders the posts by date_posted in descending order.
+    paginate_by = 2
 
 
 class PostDetailView(DetailView):
