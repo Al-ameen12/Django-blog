@@ -9,7 +9,7 @@
     <img src="{{ object.author.profile.image.url }}" alt="" class="rounded-circle article-img">
     <div class="media-body">
         <div class="article-metadata">
-            <a class="mr-2" href="#">{{ object.author }}</a>
+            <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ object.author }}</a>
             <!-- filterded the date to show only date without time -->
             <small class="text-muted">on {{ object.date_posted|date:"F d, Y" }}</small>
             {% if object.author == user %}

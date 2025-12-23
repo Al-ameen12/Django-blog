@@ -63,8 +63,9 @@
     by adding success_url = '/' to PostDeleteView
 
 '''
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.views.generic import (
     ListView, 
     DetailView,
@@ -86,7 +87,17 @@ class PostListView(ListView):
     template_name = 'blog/home.html' #specifies the template to be used  <app>/<model>_<viewtype>.html
     context_object_name = 'posts' #this is used to change the default name of the list object from object_list to posts
     ordering = ['-date_posted'] #orders the posts by date_posted in descending order.
-    paginate_by = 2
+    paginate_by = 5
+
+class UserPostListView(ListView):
+    model = Post #it tells the ListView what model to query in other to create the list
+    template_name = 'blog/user_posts.html' #specifies the template to be used  <app>/<model>_<viewtype>.html
+    context_object_name = 'posts' #this is used to change the default name of the list object from object_list to posts
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date_posted')
 
 
 class PostDetailView(DetailView):
